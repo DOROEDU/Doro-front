@@ -13,8 +13,7 @@ import {
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { CommonActions, useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+// import * as SecureStore from "expo-secure-store";
 import Interceptor from "../utill/Interceptor";
 import { URL } from "../utill/config";
 import { AuthContext } from "../store/auth-context";
@@ -29,19 +28,22 @@ import BottomModal from "../components/ui/BottomModal";
 import { getProfile, logout, pushNotification } from "../utill/http";
 import { KRRegular } from "../constants/fonts";
 import FilterModal from "../components/ui/FilterModal";
+import UserScreen from "./UserScreen";
 
 // import messaging from "@react-native-firebase/messaging";
 
-function ManagerScreen() {
+function ManagerScreen({ nav }) {
   // async function getToken() {
   //   try {
   //     const token = await messaging().getToken();
-  //     // await AsyncStorage.setItem("fcmToken", token);
   //     setBody(token);
   //   } catch (error) {
   //     console.error(error);
   //   }
   // }
+  // useEffect(() => {
+  //   getToken();
+  // }, []);
 
   const [userData, setUserData] = useState([]);
   // const [filterUser, setFilterUser] = useState([]);
@@ -94,6 +96,10 @@ function ManagerScreen() {
             .catch((error) => {
               console.log("에러");
               console.log(error);
+              if (error.isRefreshError) {
+                // RefreshToken 관련 에러 시 로그아웃
+                authCtx.logout();
+              }
             })
         );
 
@@ -107,13 +113,7 @@ function ManagerScreen() {
         console.log("에러");
         console.log(error);
       });
-
-    // getToken();
   }, []);
-
-  // useEffect(() => {
-  //   getToken();
-  // }, []);
 
   const addAlarm = async () => {
     try {
@@ -121,13 +121,14 @@ function ManagerScreen() {
         title: title,
         body: body,
       });
-      // setBody(JSON.stringify(response));
       if (response.success) {
         Alert.alert("알림 전송 성공", `제목 : ${title}\n내용 : ${body}`);
-        // setBody("");
-        // setTitle("");
       }
     } catch (error) {
+      if (error.isRefreshError) {
+        // RefreshToken 관련 에러 시 로그아웃
+        authCtx.logout();
+      }
       Alert.alert("알림 전송 실패", `제목 : ${title}\n내용 : ${body}`);
       console.log(error);
       if (error.response) {
@@ -153,6 +154,10 @@ function ManagerScreen() {
       }
     } catch (error) {
       console.log(error);
+      if (error.isRefreshError) {
+        // RefreshToken 관련 에러 시 로그아웃
+        authCtx.logout();
+      }
     }
   }
 
@@ -172,8 +177,8 @@ function ManagerScreen() {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "first", title: "강사 목록" },
-    // { key: "second", title: "강의 목록" },
-    { key: "third", title: "알림 발송" },
+    { key: "second", title: "알림 발송" },
+    { key: "third", title: "마이페이지" },
   ]);
 
   async function logoutApi() {
@@ -317,7 +322,6 @@ function ManagerScreen() {
                         fontSize: 15,
                         fontWeight: "bold",
                         paddingLeft: 5,
-                        // backgroundColor: GlobalStyles.colors.gray01,
                       }}
                       placeholderTextColor={GlobalStyles.colors.gray05}
                       placeholder="검색"
@@ -345,32 +349,10 @@ function ManagerScreen() {
               }}
               extraData={userData}
             />
-
-            {/* <Pressable onPress={() => authCtx.logout()}>
-              <Text>매니저 로그아웃</Text>
-            </Pressable> */}
           </View>
         );
 
-      // case "second":
-      //   return (
-      //     <ScrollView style={styles.lectureListContainer}>
-      //       <View
-      //         style={{
-      //           flexDirection: "row",
-      //           gap: 7,
-      //           marginTop: 15,
-      //           marginBottom: 5,
-      //         }}
-      //       >
-      //         <FilterBox text="교육 지역" />
-      //         <FilterBox text="교육 날짜" />
-      //       </View>
-      //       {lecturesElements}
-      //     </ScrollView>
-      //   );
-
-      case "third":
+      case "second":
         return (
           <View
             style={{
@@ -408,6 +390,10 @@ function ManagerScreen() {
             </View>
           </View>
         );
+
+      case "third":
+        return <UserScreen navigation={nav} />;
+
       default:
         return <View />;
     }
@@ -438,12 +424,6 @@ function ManagerScreen() {
               borderBottomWidth: 0.5,
               borderBottomColor: GlobalStyles.colors.gray04,
             }}
-            // labelStyle={{
-            //   // 폰트 스타일
-            //   margin: 0,
-            //   fontSize: 15,
-            //   color: "black",
-            // }}
             renderLabel={({ route, focused, color }) => (
               <Text
                 style={

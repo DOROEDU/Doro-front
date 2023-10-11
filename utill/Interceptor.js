@@ -1,8 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import axios from "axios";
+import { Alert } from "react-native";
 import { URL } from "./config";
 // import { errorHandler } from "./etc";
-import { Alert } from "react-native";
 
 function Interceptor() {
   const instance = axios.create({
@@ -12,8 +12,8 @@ function Interceptor() {
 
   instance.interceptors.request.use(
     async function (config) {
-      console.log("config 콘솔: ", config);
-      const token = await AsyncStorage.getItem("token");
+      // console.log("config 콘솔: ", config);
+      const token = await SecureStore.getItemAsync("token");
 
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
@@ -38,8 +38,8 @@ function Interceptor() {
   };
 
   const refreshToken = async () => {
-    const token = await AsyncStorage.getItem("token");
-    const refreshToken = await AsyncStorage.getItem("refreshToken");
+    const token = await SecureStore.getItemAsync("token");
+    const refreshToken = await SecureStore.getItemAsync("refreshToken");
 
     try {
       console.log("hi refresh 할꺼염");
@@ -49,12 +49,13 @@ function Interceptor() {
       });
 
       const newToken = response.headers.authorization;
-      await AsyncStorage.setItem("token", newToken);
+      await SecureStore.setItemAsync("token", newToken);
       console.log("새로운 토큰이얌" + newToken);
       onTokenRefreshed(newToken);
     } catch (error) {
-      console.log("error발생 리프래시" + error);
-      Alert.alert("에러", "로그아웃 후 다시 로그인을 해주세요");
+      Alert.alert("인증 에러 발생", "다시 로그인 해주세요.");
+      error.isRefreshError = true;
+      throw error;
     }
 
     isRefreshingPromise = null;
