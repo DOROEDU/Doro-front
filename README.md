@@ -23,14 +23,14 @@
 
 ## 📘 프로젝트 소개 📘
 
-도로는 초중고 등의 교육 기관과 대학생 전문 강사를 매칭하는 역할을 하는 기업입니다.<br/><br/>
-DORO EDU APP은 강의 신청 및 관리를 위해 기존에 노션, 디스코드, 구글폼 등 여러 플랫폼을 이용해야 했던 번거로움을 해소하고, 이를 한 곳에서 관리할 수 있도록 만들어진 애플리케이션입니다.
+도로는 초중고 등의 교육 교관과  대학생 전문 강사를 연결하는 매칭 서비스를 제공하는 기업입니다.<br/><br/>
+DORO EDU APP은 강의 신청 및 관리를 보다 간편하게 처리할 수 있도록 만들어진 애플리케이션입니다.
 <br/><br/>
 주요 기능은 다음과 같습니다.<br/><br/>
 
-1. 교육 프로그램 신청 폼: 사용자가 RODU에서 제공하는 다양한 교육 프로그램에 신청할 수 있는 간편한 온라인 폼입니다.<br/>
-2. 문의 게시판: 사용자와 RODU 간의 원활한 커뮤니케이션을 지원하는 인터페이스로, 질문을 게시하고 답변을 받을 수 있습니다.<br/>
-3. 교육 컨텐츠 소개: RODU에서 제공하는 교육 컨텐츠와 관련 정보를 사용자에게 소개하며, 교육의 질을 향상시키는 데 기여합니다.<br/><br/>
+1. 강사 배정 및 강의 관리: 관리자는 강의를 생성하고 해당 강의에 강사를 배정, 사용자(강사)는 등록된 강의를 신청<br/>
+2. 강의 배정 알림 발송: 강의에 배정된 강사에게 배정된 사실을 알림을 통해 발송<br/>
+3. 공지 및 알림 발송: 관리자는 공지나 알림을 등록하고, 알림을 통해 발송<br/><br/>
 
 ---
 
@@ -43,42 +43,34 @@ DORO EDU APP은 강의 신청 및 관리를 위해 기존에 노션, 디스코�
 
 ### Config
 ![npm](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)        
+![env](https://img.shields.io/badge/.env-ECD53F?style=for-the-badge&logo=.env&logoColor=white)        
 
 ### Development
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=Javascript&logoColor=white)
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Recoil](https://img.shields.io/badge/Recoil-F2F2F2?style=for-the-badge&logo=Recoil&logoColor=3578E5)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-0F1729?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4)
-
-### Hosting & Deployment
-![Netlify](https://img.shields.io/badge/netlify-333333?style=for-the-badge&logo=netlify&logoColor=00C7B7)
+![React](https://img.shields.io/badge/React&nbsp;Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Expo](https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-white?style=for-the-badge&logo=firebase&logoColor=FFCA28)
 
 ---
 ## 화면 구성 📺
-|  **메인 페이지**  |  **교육 컨텐츠 페이지**  |
-| :-------------------------------------------: | :------------: |
-| <img width="329" src="https://github.com/RODU-LAB/FrontEnd-Web/assets/42240254/4b9521b2-122a-4c1f-86ca-b7438fd03e52"/> |  <img width="329" src="https://github.com/RODU-LAB/FrontEnd-Web/assets/42240254/44d13da2-c612-4456-acfb-ae44be5f39f0"/>|  
-| **교육 신청 페이지**   |  **문의 게시판 페이지**   |  
-| <img width="329" src="https://github.com/RODU-LAB/FrontEnd-Web/assets/42240254/c332730d-069d-4385-8572-340aebdae8f7"/>   |  <img width="329" src="https://github.com/RODU-LAB/FrontEnd-Web/assets/42240254/29b2fd88-739c-4cba-b487-9fc3d9092c5e"/>     |
+> 대표적인 화면 여섯 가지만 포함되어 있습니다.
+<br/>
+
+![도로 앱 화면 모음1](https://github.com/DOROEDU/Doro-Front/assets/42240254/b16c7b04-d719-4d7f-981b-eb933ee82f40)
+![도로 앱 화면 모음2](https://github.com/DOROEDU/Doro-Front/assets/42240254/b8c7d1f2-13f4-4de1-ad7d-daf32b88f793)
+
 
 ---
 ## 📦 주요 기술 📦
 
-### ⭐️ 반응형 웹 서비스 (진행 중)
-- 사용성과 접근성을 크게 향상시켜 사용자 경험을 최적화
+### ⭐️ JWT 토큰을 활용한 로그인 세션 구현
+- JWT 토큰을 안전하게 저장하기 위해 Expo 라이브러리인 SecureStore를 통해 로그인 세션을 관리
+- 일반 강사와 관리자를 구분하여, 각 사용자 유형에 맞는 데이터와 API를 사용할 수 있도록 구현
 
-### ⭐️ 상태 관리 라이브러리, Recoil
-- 한 번의 카카오톡 인증을 통해 발급받은 토큰을 Recoil에 저장함으로써, 교육 신청과 문의 게시판 이용 시 여러 번의 인증 과정 없이 서비스 이용
+### ⭐️ 푸시 알림 구현
+- 일반적으로 알림을 구현하면 Foreground (앱 실행 중) 상태에서 푸시 알림을 사용자가 받을 수 없습니다. 이 문제를 해결하기 위해 notifee 라이브러리의 로컬 알림 기능을 사용하여 알림을 표시했습니다.
 - 작성 중인 폼의 내용을 Recoil에 임시 저장함으로써, 폼 재작성 시에 저장된 내용을 불러와 이어서 작성
 
-### ⭐️ JWT 토큰을 활용한 로그인 구현
-- JWT 토큰을 localStorage와 sessionStorage에 저장하여 관리자 로그인 세션을 관리
-- 주로 교육 신청 내역 확인 및 문의 게시판 답변에 사용
-
 ### ⭐️ RestFullAPI를 통한 백엔드와 협업
-- 교육 신청 폼 데이터 전달 및 내역 조회
-- 문의 게시글 등록·삭제·수정, 답변·삭제(관리자 기능)
-- 관리자 로그인
-- 카카오톡 인증
 
 ---
